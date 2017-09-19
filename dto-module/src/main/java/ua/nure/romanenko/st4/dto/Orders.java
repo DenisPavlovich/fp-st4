@@ -105,12 +105,4 @@ public class Orders extends Dto {
         this.create_date = create_date;
     }
 
-    public static class Status {
-        public final static String UNCHECKED = "UNCHECKED";
-        public final static String WAITED = "WAITED";
-        public final static String PAID = "PAID";
-        public final static String IN_PROCESS = "IN PROCESS";
-        public final static String CANCELED = "CANCELED";
-        public final static String DONE = "DONE";
-    }
 }

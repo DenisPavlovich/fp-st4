@@ -95,17 +95,4 @@ public class Apartments extends Dto {
         this.photoPath = photoPath;
     }
 
-    public static class Status {
-        public final static String FREE = "FREE";
-        public final static String BOOKED = "BOOKED";
-        public final static String BUSY = "BUSY";
-        public final static String NOT_AVAILABLE = "NOT AVAILABLE";
-    }
-
-    public static class Type {
-        public final static String ECONOMY = "ECONOMY";
-        public final static String BUSINESS = "BUSINESS";
-        public final static String PREMIUM = "PREMIUM";
-    }
-
 }

@@ -77,8 +77,4 @@ public class Accounts extends Dto {
         this.createDate = createDate;
     }
 
-    public static class Type {
-        public final static String CLIENT = "CLIENT";
-        public final static String MANAGER = "MANAGER";
-    }
 }

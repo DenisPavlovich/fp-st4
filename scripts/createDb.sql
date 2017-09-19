@@ -34,7 +34,7 @@ CREATE TABLE accounts (
 CREATE UNIQUE INDEX accounts_idx
   ON accounts (id);
 
-CREATE TYPE APARTMENTS_STATUS AS ENUM ('FREE', 'BOOKED', 'BUSY', 'NOT AVAILABLE');
+CREATE TYPE APARTMENTS_STATUS AS ENUM ('FREE', 'BOOKED', 'BUSY', 'NOT_AVAILABLE');
 CREATE TYPE APARTMENTS_TYPE AS ENUM ('ECONOMY', 'BUSINESS', 'PREMIUM');
 
 CREATE TABLE apartments (
@@ -43,7 +43,7 @@ CREATE TABLE apartments (
   rooms        INTEGER                                                NOT NULL,
   person_count INTEGER CHECK (person_count > 0)                       NOT NULL,
   price        FLOAT CHECK (price > 0)                                NOT NULL,
-  --('FREE', 'BOOKED', 'BUSY', 'NOT AVAILABLE')
+  --('FREE', 'BOOKED', 'BUSY', 'NOT_AVAILABLE')
   status       APARTMENTS_STATUS DEFAULT 'FREE',
   --('ECONOMY', 'BUSINESS', 'PREMIUM')
   "type"       APARTMENTS_TYPE   DEFAULT 'BUSINESS',
@@ -53,13 +53,13 @@ CREATE TABLE apartments (
 CREATE UNIQUE INDEX apartments_idx
   ON apartments (id);
 
-CREATE TYPE ORDER_STATUS AS ENUM ('UNCHECKED', 'WAITED', 'PAID', 'IN PROCESS', 'CANCELED', 'DONE');
+CREATE TYPE ORDER_STATUS AS ENUM ('UNCHECKED', 'WAITED', 'PAID', 'IN_PROCESS', 'CANCELED', 'DONE');
 
 CREATE TABLE orders (
   id             SERIAL PRIMARY KEY UNIQUE,
   accountid      INTEGER REFERENCES accounts (id) ON DELETE CASCADE                                            NOT NULL,
   apartmentid    INTEGER REFERENCES apartments (id) ON DELETE CASCADE,
-  --('UNCHECKED', 'WAITED', 'PAID', 'IN PROCESS', 'CANCELED', 'DONE')
+  --('UNCHECKED', 'WAITED', 'PAID', 'IN_PROCESS', 'CANCELED', 'DONE')
   status         ORDER_STATUS DEFAULT 'UNCHECKED',
   person_count   INTEGER                                                                                       NOT NULL,
   apartment_type APARTMENTS_TYPE                                                                               NOT NULL,
@@ -78,7 +78,7 @@ CREATE OR REPLACE FUNCTION update_order()
 BEGIN
   IF (SELECT status
       FROM apartments
-      WHERE id = new.apartmentid) = 'NOT AVAILABLE'
+      WHERE id = new.apartmentid) = 'NOT_AVAILABLE'
   THEN
     RETURN new;
   END IF;
@@ -88,7 +88,7 @@ BEGIN
     UPDATE apartments
     SET status = 'BOOKED'
     WHERE id = new.apartmentid;
-  ELSEIF new.status = 'IN PROCESS'
+  ELSEIF new.status = 'IN_PROCESS'
     THEN
       UPDATE apartments
       SET status = 'BUSY'
