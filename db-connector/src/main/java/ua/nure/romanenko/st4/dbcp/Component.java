@@ -108,7 +108,7 @@ abstract class Component {
                 Object value = field.get(dto);
                 if (value != null)
                     filters.append(String.format("%s = %s AND ",
-                            field.getAnnotation(Column.class),
+                            field.getAnnotation(Column.class).value(),
                             convertToString(value)));
             } catch (IllegalAccessException e) {
                 e.printStackTrace(); //// TODO: 15.09.17 log
@@ -119,7 +119,7 @@ abstract class Component {
         return filters.toString();
     }
 
-    private String convertToString(Object value) {
+    protected String convertToString(Object value) {
         if (value == null) return null;
 
         if (value instanceof Date)
