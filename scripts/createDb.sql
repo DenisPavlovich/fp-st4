@@ -61,7 +61,7 @@ CREATE TABLE orders (
   apartmentid    INTEGER REFERENCES apartments (id) ON DELETE CASCADE,
   --('UNCHECKED', 'WAITED', 'PAID', 'IN_PROCESS', 'CANCELED', 'DONE')
   status         ORDER_STATUS DEFAULT 'UNCHECKED',
-  person_count   INTEGER                                                                                       NOT NULL,
+  person_count   INTEGER      DEFAULT 1,
   apartment_type APARTMENTS_TYPE                                                                               NOT NULL,
   "from"         TIMESTAMP                                                                                     NOT NULL,
   "to"           TIMESTAMP CHECK (orders.to > orders.from)                                                     NOT NULL,

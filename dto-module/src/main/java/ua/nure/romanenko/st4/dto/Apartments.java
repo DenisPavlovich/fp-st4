@@ -75,8 +75,8 @@ public class Apartments extends Dto {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(ApartmentStatus status) {
+        this.status = status.toString();
     }
 
     public String getType() {
