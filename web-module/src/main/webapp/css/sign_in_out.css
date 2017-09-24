@@ -1,0 +1,74 @@
+.form-auth{
+    outline: 0;
+    background: #26292E;
+    position: relative;
+    max-width: 360px;
+    margin: 0 auto 100px;
+}
+input.input {
+    outline: none;
+    border: 0;
+    padding: 15px;
+    width: 100%;
+    margin: 0 0 15px;
+    box-sizing: border-box;
+
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #CCC;
+    color: #555;
+
+    -moz-transition: .5s ease-in-out;
+    -webkit-transition: .5s ease-in-out;
+    -o-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+}
+
+
+input.text {
+    outline: none;
+    border: 0;
+    padding: 5px;
+    width: 100%;
+    margin: 0 0 5px;
+    box-sizing: border-box;
+
+    background-color: transparent;
+    border: none;
+    color: #DE5E60;
+}
+
+input.input:focus{
+    color: #DE5E60;
+    border-color: #DE5E60;
+}
+
+button {
+    text-transform: uppercase;
+    color: silver;
+    background: #26292E;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    cursor: pointer;
+
+    -moz-transition: .5s ease-in-out;
+    -webkit-transition: .5s ease-in-out;
+    -o-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+}
+
+button:hover, button:active, button:focus {
+    color: #DE5E60;
+}
+
+.form {
+    position: relative;
+    z-index: 1;
+    background: #26292E;
+    max-width: 360px;
+    margin: 5% auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}

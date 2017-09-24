@@ -1,0 +1,17 @@
+<%@page contentType="text/html" pageEncoding="utf-8" %>
+
+<div class="hat">
+    hotel
+</div>
+<div class="sticky-nav">
+    <nav id="menu">
+        <ul id="menu-nav">
+            <li>
+                <a href="../index.jsp">home</a>
+            </li>
+            <li>
+                <a>about us</a>
+            </li>
+        </ul>
+    </nav>
+</div>

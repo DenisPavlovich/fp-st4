@@ -18,6 +18,7 @@
         <module>annotation-module</module>
         <module>dto-module</module>
         <module>db-connector</module>
+        <module>controller-module</module>
     </modules>
 
     <dependencies>

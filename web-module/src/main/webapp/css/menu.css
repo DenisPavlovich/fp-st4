@@ -1,0 +1,42 @@
+/*ul {*/
+    /*display: block;*/
+    /*list-style-type: disc;*/
+    /*-webkit-margin-before: 1em;*/
+    /*-webkit-margin-after: 1em;*/
+    /*-webkit-margin-start: 0px;*/
+    /*-webkit-margin-end: 0px;*/
+    /*-webkit-padding-start: 40px;*/
+/*}*/
+
+/*nav#menu #menu-nav li:first-child {*/
+    /*margin-left: 0;*/
+/*}*/
+
+nav#menu {
+    position: relative;
+    color: silver;
+    background: #26292E;
+    padding: 5px 0px 5px 0px;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+nav#menu #menu-nav li {
+    list-style: none;
+    display: inline-block;
+    margin-left: 40px;
+}
+
+a:hover {
+    color: #DE5E60;
+}
+
+a {
+    text-decoration: none;
+    color: silver;
+    -moz-transition: color .5s ease-in-out;
+    -webkit-transition: color .5s ease-in-out;
+    -o-transition: color .5s ease-in-out;
+    transition: color .5s ease-in-out;
+    cursor: pointer;
+}

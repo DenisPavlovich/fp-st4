@@ -1,0 +1,54 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+html,body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+body {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    background: #2F3238;
+}
+p {
+    color: silver;
+}
+
+button, input {
+    font-size: 16px;
+}
+
+.message:hover {
+    color: #DE5E60;
+}
+
+.message {
+    font-size: 12px;
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    text-align: center;
+
+    -moz-transition: color .5s ease-in-out;
+    -webkit-transition: color .5s ease-in-out;
+    -o-transition: color .5s ease-in-out;
+    transition: color .5s ease-in-out;
+}
+
+.hat {
+    position: relative;
+    width: 100%;
+    font-size: 64px;
+    /*box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);*/
+
+    line-height: 125px;
+    text-align: center;
+    text-shadow: none;
+
+    text-transform: uppercase;
+    color: whitesmoke;
+
+    background: -webkit-linear-gradient(to bottom, #444444, #26292E);
+    background: -moz-linear-gradient(to bottom, #444444, #26292E);
+    background: -o-linear-gradient(to bottom, #444444, #26292E);
+    background: linear-gradient(to bottom, #444444, #26292E);
+}
