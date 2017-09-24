@@ -28,7 +28,7 @@ public class Orders extends Dto {
     private Date from;
     @Column("\"to\"")
     private Date to;
-    @Column("create_date")
+    @Column(value = "create_date", defaultValue = true)
     private Date create_date;
 
     @Override

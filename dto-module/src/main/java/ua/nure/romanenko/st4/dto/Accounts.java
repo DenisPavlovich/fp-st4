@@ -24,7 +24,7 @@ public class Accounts extends Dto {
     private String password;
     @Column("type")
     private String type;
-    @Column("create_date")
+    @Column(value = "create_date", defaultValue = true)
     private Date createDate;
 
     @Override

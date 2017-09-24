@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * Created by denis on 19.09.17.
  */
-@WebServlet(name = "Servlet", urlPatterns = "/Servlet")
+@WebServlet(name = "Servlet", urlPatterns = "/")
 public class Servlet extends HttpServlet {
 
     static{
