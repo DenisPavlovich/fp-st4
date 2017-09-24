@@ -22,7 +22,7 @@ public class Query extends Component {
                 .setWhere(String.format("%s = %d ", getIdName(clazz), id))
                 .build();
 
-        List<Dto> dtos = readDtos(query, clazz);
+        List<Dto> dtos = (List<Dto>) readDtos(query, clazz);
         if (dtos.size() != 0) return dtos.get(0);
         return null;
     }
@@ -38,19 +38,19 @@ public class Query extends Component {
         return null;
     }
 
-    public List<Dto> readRows(Class<? extends Dto> clazz) throws SQLException {
+    public List<?> readRows(Class<? extends Dto> clazz) throws SQLException {
         return readRows(clazz, null, null);
     }
 
-    public List<Dto> readRows(Class<? extends Dto> clazz, Integer limit) throws SQLException {
+    public List<?> readRows(Class<? extends Dto> clazz, Integer limit) throws SQLException {
         return readRows(clazz, null, limit);
     }
 
-    public List<Dto> readRows(Class<? extends Dto> clazz, String from) throws SQLException {
+    public List<?> readRows(Class<? extends Dto> clazz, String from) throws SQLException {
         return readRows(clazz, from, null);
     }
 
-    public List<Dto> readRows(Class<? extends Dto> clazz, String from, Integer limit) throws SQLException {
+    public List<?> readRows(Class<? extends Dto> clazz, String from, Integer limit) throws SQLException {
         String query = new QueryBuilder(clazz)
                 .setFrom(from)
                 .setLimit(limit)
@@ -59,11 +59,11 @@ public class Query extends Component {
         return readDtos(query, clazz);
     }
 
-    public List<Dto> readRows(Dto filter) throws SQLException {
+    public List<?> readRows(Dto filter) throws SQLException {
         return readRows(filter, null);
     }
 
-    public List<Dto> readRows(Dto filter, Integer limit) throws SQLException {
+    public List<?> readRows(Dto filter, Integer limit) throws SQLException {
         Class clazz = filter.getClass();
         String query = new QueryBuilder(clazz)
                 .setWhere(buildFilter(filter))
@@ -73,7 +73,7 @@ public class Query extends Component {
         return readDtos(query, clazz);
     }
 
-    private List<Dto> readDtos(String query, Class<? extends Dto> clazz) throws SQLException {
+    private List<?> readDtos(String query, Class<? extends Dto> clazz) throws SQLException {
         List<Dto> result = new LinkedList<>();
         Connection con = getConnection();
         try (Statement statement = con.createStatement()) {
