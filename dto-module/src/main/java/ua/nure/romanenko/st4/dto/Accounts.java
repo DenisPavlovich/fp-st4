@@ -22,7 +22,7 @@ public class Accounts extends Dto {
     private String login;
     @Column("password")
     private String password;
-    @Column("type")
+    @Column(value = "type", defaultValue = true)
     private String type;
     @Column(value = "create_date", defaultValue = true)
     private Date createDate;

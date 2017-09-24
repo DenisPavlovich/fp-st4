@@ -22,7 +22,7 @@ public class Apartments extends Dto {
     private Integer personCount;
     @Column("price")
     private Double price;
-    @Column("status")
+    @Column(value = "status", defaultValue = true)
     private String status;
     @Column("type")
     private String type;

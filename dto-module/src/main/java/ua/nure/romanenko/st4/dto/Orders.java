@@ -18,7 +18,7 @@ public class Orders extends Dto {
     private Integer accountId;
     @Column("apartmentid")
     private Integer apartmentId;
-    @Column("status")
+    @Column(value = "status", defaultValue = true)
     private String status;
     @Column("person_count")
     private Integer personCount;
