@@ -32,7 +32,7 @@ public class Query extends Component {
         String query = new QueryBuilder(clazz)
                 .setWhere(buildFilter(filter))
                 .build();
-
+        System.out.println("query : " + query);
         List<Dto> dtos = readDtos(query, clazz);
         if (dtos.size() != 0) return dtos.get(0);
         return null;
@@ -110,8 +110,8 @@ public class Query extends Component {
         private String order = "";
 
         public QueryBuilder(Class<? extends Dto> clazz) {
-            select = getColumnsNames(clazz);
-            from = getTable(clazz);
+            select = String.format("SELECT %s ", getColumnsNames(clazz));
+            from = String.format("FROM %s ", getTable(clazz));
         }
 
         public QueryBuilder setSelect(String value) {
