@@ -21,21 +21,13 @@ import java.util.List;
  * Created by denis on 24.09.17.
  */
 public class ViewRoomsTag extends TagSupport {
-    private Query query = new Query();
+    protected Query query = new Query();
     private static final Logger logger = Logger.getLogger(ViewRoomsTag.class);
 
-    private ApartmentType apartmentType;
-    private ApartmentStatus apartmentStatus;
-
-    private String urlServlet;
-    private String buttonName;
-
-    public void setApartmentType(String apartmentType) {
-        this.apartmentType = ApartmentType.valueOf(apartmentType);
-    }
+    protected String apartmentStatus;
 
     public void setApartmentStatus(String apartmentStatus) {
-        this.apartmentStatus = ApartmentStatus.valueOf(apartmentStatus);
+        this.apartmentStatus = apartmentStatus;
     }
 
     @Override

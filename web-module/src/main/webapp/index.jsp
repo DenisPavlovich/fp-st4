@@ -20,7 +20,7 @@
 
         <div class="book_list">
             <h3>ROOMS</h3>
-            <my:rooms/>
+            <my:free_rooms/>
         </div>
     </c:if>
     <%--USER VIEW END--%>
@@ -36,7 +36,7 @@
 
                 <div class="book_list">
                     <h3>ROOMS</h3>
-                    <my:client_rooms action="pages/client/book_room.jsp" buttonName="book"/>
+                    <my:client_free_rooms action="pages/client/book_room.jsp" buttonName="book" apartmentStatus="FREE"/>
                 </div>
             </c:when>
             <%--CLIENT VIEW END--%>

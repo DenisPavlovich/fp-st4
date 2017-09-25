@@ -16,4 +16,5 @@ public abstract class SignInOut extends HttpServlet {
         account.setPassword(request.getParameter("password"));
         return account;
     }
+
 }

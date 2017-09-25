@@ -2,26 +2,53 @@ package ua.nure.romanenko.st4.tags;
 
 import org.apache.log4j.Logger;
 import ua.nure.romanenko.st4.dbcp.Query;
-import ua.nure.romanenko.st4.dto.ApartmentStatus;
-import ua.nure.romanenko.st4.dto.Apartments;
+import ua.nure.romanenko.st4.dto.*;
 
 import javax.servlet.jsp.JspException;
 
 import javax.swing.text.html.FormSubmitEvent.MethodType;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Created by denis on 24.09.17.
  */
 public class ClientListRoomsTag extends ViewRoomsTag {
 
+    private ResourceBundle props = ResourceBundle.getBundle("fieldNameKeys");
+
+    private Apartments apartmentFilter = null;
+    private Orders orderFilter = null;
+
     private static final Logger logger = Logger.getLogger(ClientListRoomsTag.class);
-    private Query query = new Query();
 
     private String action;
     private String buttonName;
+    private String apartmentStatus;
+
+    private String apartmentType;
+    private Integer accountId;
+
+    public void setApartmentStatus(String apartmentStatus) {
+        this.apartmentStatus = apartmentStatus;
+        if (apartmentFilter == null) apartmentFilter = new Apartments();
+        apartmentFilter.setStatus(ApartmentStatus.valueOf(apartmentStatus));
+    }
+
+    public void setApartmentType(String apartmentType) {
+        this.apartmentType = apartmentType;
+        if (apartmentFilter == null) apartmentFilter = new Apartments();
+        apartmentFilter.setType(ApartmentType.valueOf(apartmentType));
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+        if (orderFilter == null) orderFilter = new Orders();
+        orderFilter.setAccountId(accountId);
+    }
 
     public void setAction(String action) {
         this.action = action;
@@ -38,7 +65,8 @@ public class ClientListRoomsTag extends ViewRoomsTag {
         filter.setStatus(ApartmentStatus.FREE);
 
         try {
-            rooms = (List<Apartments>) query.readRows(filter);
+//            rooms = (List<Apartments>) query.readRows(filter);
+            rooms = readApartmentFromBase();
             StringBuilder htmlResult = new StringBuilder();
             htmlResult.append("<div>");
             for (Apartments room : rooms) {
@@ -52,8 +80,27 @@ public class ClientListRoomsTag extends ViewRoomsTag {
             logger.error("can't get apartments from base!", e);
         } catch (IOException e) {
             logger.error("bad html code!", e);
+        } catch (NoSuchFieldException e) {
+            logger.fatal("REFLECTION: bad name field!", e);
         }
         return SKIP_BODY;
+    }
+
+    private List<Apartments> readApartmentFromBase() throws NoSuchFieldException, SQLException {
+        String orderWithRoom = props.getString("order.with.room");
+        String roomId = props.getString("room.id");
+
+        Class joinTable = Orders.class;
+        Field joinIdField = Orders.class.getDeclaredField(orderWithRoom);
+        Field fromIdField = Apartments.class.getDeclaredField(roomId);
+
+        Query.QueryBuilder qb = query.getQueryBuilder(Apartments.class);
+        if (orderFilter != null && orderFilter.getAccountId() != null) {
+            qb.setJoin(joinTable, joinIdField, fromIdField);
+            qb.setWhere(apartmentFilter, orderFilter);
+        } else qb.setWhere(apartmentFilter, orderFilter);
+
+        return (List<Apartments>) qb.readDtos();
     }
 
     private String apartmentToForm(Apartments apartment) {

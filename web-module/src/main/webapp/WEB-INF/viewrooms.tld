@@ -10,7 +10,7 @@
     <uri>WEB-INF/viewrooms.tld</uri>
 
     <tag>
-        <name>client_rooms</name>
+        <name>client_free_rooms</name>
         <tag-class>ua.nure.romanenko.st4.tags.ClientListRoomsTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
@@ -27,14 +27,15 @@
             <name>buttonName</name>
             <required>true</required>
         </attribute>
+        <attribute>
+            <name>accountId</name>
+        </attribute>
     </tag>
+
     <tag>
-        <name>rooms</name>
+        <name>free_rooms</name>
         <tag-class>ua.nure.romanenko.st4.tags.ViewRoomsTag</tag-class>
         <body-content>empty</body-content>
-        <attribute>
-            <name>apartmentType</name>
-        </attribute>
         <attribute>
             <name>apartmentStatus</name>
         </attribute>
