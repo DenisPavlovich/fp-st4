@@ -7,11 +7,7 @@
 }
 input.input {
     outline: none;
-    border: 0;
     padding: 15px;
-    width: 100%;
-    margin: 0 0 15px;
-    box-sizing: border-box;
 
     background-color: transparent;
     border: none;
@@ -27,11 +23,7 @@ input.input {
 
 input.text {
     outline: none;
-    border: 0;
     padding: 5px;
-    width: 100%;
-    margin: 0 0 5px;
-    box-sizing: border-box;
 
     background-color: transparent;
     border: none;
@@ -66,9 +58,8 @@ button:hover, button:active, button:focus {
     position: relative;
     z-index: 1;
     background: #26292E;
-    max-width: 360px;
-    margin: 5% auto 100px;
-    padding: 45px;
-    text-align: center;
+    /*max-width: 360px;*/
+    margin: 20px 0px 10px 0px;
+    padding: 25px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }

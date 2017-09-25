@@ -64,15 +64,8 @@ public class ViewRoomsTag extends TagSupport {
     protected String apartmentToHtml(Apartments apartment) {
         String className = apartment.getClass().getAnnotation(Table.class).value();
         StringBuilder result = new StringBuilder();
-        result.append(String.format("<div class=\"%s\" >", className));
-
-//        result.append(fieldToHtml("Number", "number", apartment.getNumber().toString()));
-//        result.append(fieldToHtml("Rooms", apartment.getRooms().toString()));
-//        result.append(fieldToHtml("PersonCount", apartment.getPersonCount().toString()));
-//        result.append(fieldToHtml("Price", apartment.getPrice().toString()));
-//        result.append(fieldToHtml("Status", apartment.getStatus().toString()));
-//        result.append(fieldToHtml("Type", apartment.getType().toString()));
-//        result.append(fieldToHtml("PhotoPath", apartment.getPhotoPath()));
+//        result.append(String.format("<div class=\"%s\" >", className));
+        result.append("<div class=\"form\" >");
 
         Class clazz = apartment.getClass();
         for (Field field : clazz.getDeclaredFields()) {
@@ -93,7 +86,7 @@ public class ViewRoomsTag extends TagSupport {
     }
 
     protected String fieldToHtml(String name, String paramName, String value) {
-        return String.format("<p> %s : <input class=\"text\" name=\"%s\" value=\"%s\" readonly> </p>",
+        return String.format("<p> %s : <input class=\"text\" type=\"text\" name=\"%s\" value=\"%s\" readonly></p>",
                 name, paramName, value);
     }
 }

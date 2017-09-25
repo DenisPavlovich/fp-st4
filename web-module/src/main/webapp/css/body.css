@@ -14,7 +14,7 @@ p {
     color: silver;
 }
 
-button, input {
+button, input, p {
     font-size: 16px;
 }
 
@@ -23,10 +23,9 @@ button, input {
 }
 
 .message {
-    font-size: 12px;
+    font-size: 16px;
     margin: 15px 0 0;
     color: #b3b3b3;
-    text-align: center;
 
     -moz-transition: color .5s ease-in-out;
     -webkit-transition: color .5s ease-in-out;
@@ -39,10 +38,9 @@ button, input {
     width: 100%;
     font-size: 64px;
     /*box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);*/
-
     line-height: 125px;
-    text-align: center;
     text-shadow: none;
+    text-align: center;
 
     text-transform: uppercase;
     color: whitesmoke;

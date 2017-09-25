@@ -6,6 +6,8 @@ import ua.nure.romanenko.st4.annotation.Column;
 import ua.nure.romanenko.st4.annotation.Table;
 import ua.nure.romanenko.st4.dto.Dto;
 
+import ua.nure.romanenko.st4.dbcp.enums.Splitter;
+
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -173,22 +175,27 @@ public class Query extends Component {
         }
 
         private static final String WHERE = "WHERE ";
-        private static final String AND = " AND ";
 
         public QueryBuilder setWhere(Dto... dtos) {
+            return setWhere(null, dtos);
+        }
+
+        public QueryBuilder setWhere(Splitter splitter, Dto... dtos) {
             StringBuilder where = new StringBuilder("");
+
+            if (splitter == null) splitter = Splitter.AND;
 
             for (Dto dto : dtos) {
                 if (dto != null) {
-                    if (where.length() == 0) where.append(WHERE);
+                    if (!where.toString().toUpperCase().contains(WHERE)) where.append(WHERE);
 
                     String prefix = getPrefix(dto.getClass());
                     where.append(buildFilter(dto, prefix))
-                            .append(AND);
+                            .append(Splitter.AND.toString());
                 }
             }
             if (where.length() > WHERE.length())
-                where.delete(where.length() - AND.length(), where.length());
+                where.delete(where.length() - Splitter.AND.toString().length(), where.length());
             this.where = where.toString();
             return this;
         }

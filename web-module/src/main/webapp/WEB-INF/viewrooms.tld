@@ -28,7 +28,7 @@
             <required>true</required>
         </attribute>
         <attribute>
-            <name>accountId</name>
+            <name>withAccount</name>
         </attribute>
     </tag>
 

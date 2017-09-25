@@ -1,5 +1,9 @@
 .book_list {
+    color: whitesmoke;
     padding: 5px;
     margin: 5px;
-    background-color: red;
+}
+
+h1, h2, h3, h4 {
+    color: whitesmoke;
 }

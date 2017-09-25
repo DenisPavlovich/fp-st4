@@ -23,16 +23,22 @@ public class OrderDaoImpl extends DaoBase<Orders> {
 
     public Orders insert(Orders dto, OrderStatus status) throws SQLException {
         Mutator.TransactionWriter tw = Mutator.getTransactionWriter();
-        try {
-            tw.open();
-            tw.write(dto);
-            dto.setStatus(status);
-            tw.update(dto);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            tw.close();
-        }
+        tw.open();
+
+        tw.write(dto);
+        dto.setStatus(status);
+        tw.update(dto);
+
+        tw.close();
         return dto;
+    }
+
+    public void update(Integer id, OrderStatus status) throws SQLException {
+        Orders filter = new Orders();
+
+        filter.setId(id);
+        filter.setStatus(status);
+
+        mutator.update(filter);
     }
 }

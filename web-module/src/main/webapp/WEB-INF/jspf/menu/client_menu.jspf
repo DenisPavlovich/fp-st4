@@ -11,7 +11,7 @@
                 <a href="${pageContext.servletContext.contextPath}/index.jsp">home</a>
             </li>
             <li>
-                <a>basket</a>
+                <a href="${pageContext.servletContext.contextPath}/pages/client/booked_rooms.jsp">basket</a>
             </li>
             <li>
                 <a href="${pageContext.servletContext.contextPath}/pages/client/book_room_order.jsp">send order</a>

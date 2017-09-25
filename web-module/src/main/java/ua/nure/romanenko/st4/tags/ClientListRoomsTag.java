@@ -30,7 +30,7 @@ public class ClientListRoomsTag extends ViewRoomsTag {
     private String apartmentStatus;
 
     private String apartmentType;
-    private Integer accountId;
+    private String withAccount;
 
     public void setApartmentStatus(String apartmentStatus) {
         this.apartmentStatus = apartmentStatus;
@@ -44,10 +44,10 @@ public class ClientListRoomsTag extends ViewRoomsTag {
         apartmentFilter.setType(ApartmentType.valueOf(apartmentType));
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setWithAccount(String withAccount) {
+        this.withAccount = withAccount;
         if (orderFilter == null) orderFilter = new Orders();
-        orderFilter.setAccountId(accountId);
+        orderFilter.setAccountId(Integer.valueOf(pageContext.getSession().getAttribute("accountId").toString()));
     }
 
     public void setAction(String action) {
@@ -104,7 +104,7 @@ public class ClientListRoomsTag extends ViewRoomsTag {
     }
 
     private String apartmentToForm(Apartments apartment) {
-        return genForm(MethodType.POST, String.format("<div class=\"room_list\">")
+        return genForm(MethodType.POST, String.format("<div>")
                 + apartmentToHtml(apartment)
                 + genButton()
                 + "</div>");
