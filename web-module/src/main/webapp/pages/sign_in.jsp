@@ -14,8 +14,8 @@
         <form action="/signin" method="post">
             <div class="form">
                 <div class="login-form">
-                    <input class="input" type="text" name="username" placeholder="username"/>
-                    <input class="input" type="password" name="password" placeholder="password"/>
+                    <input class="input" type="text" name="username" placeholder="username" required/>
+                    <input class="input" type="password" name="password" placeholder="password" required/>
                     <button type="submit">sing in</button>
                     <a href="sign_up.jsp" class="message">Have no account?</a>
                 </div>

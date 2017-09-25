@@ -2,35 +2,31 @@ package ua.nure.romanenko.st4.dbcp;
 
 
 import org.apache.log4j.Logger;
-import sun.rmi.runtime.Log;
 import ua.nure.romanenko.st4.annotation.Column;
 import ua.nure.romanenko.st4.annotation.Id;
-import ua.nure.romanenko.st4.dto.Accounts;
+import ua.nure.romanenko.st4.annotation.Table;
+import ua.nure.romanenko.st4.dto.ApartmentType;
 import ua.nure.romanenko.st4.dto.Dto;
+import ua.nure.romanenko.st4.dto.Orders;
 import ua.nure.romanenko.st4.dto.Users;
 
-import java.awt.*;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 /**
  * Created by denis on 11.09.17.
  */
 public class Mutator extends Component {
 
-    private static final Logger LOGGER = Logger.getLogger(Mutator.class);
+    private static final Logger logger = Logger.getLogger(Mutator.class);
 
     public Dto write(Dto dto) throws SQLException {
-        Connection con = getConnection();
-        try (Statement statement = con.createStatement()) {
-            return writeDto(dto, statement);
-        } catch (SQLException e) {
-            throw new SQLException(e); //// TODO: 12.09.17 log
-        } finally {
-            con.close();
+        try (Connection con = getConnection()) {
+            return write(con, dto);
         }
     }
 
@@ -57,21 +53,57 @@ public class Mutator extends Component {
     }
 
     public void update(Dto object, Dto filter) throws SQLException {
-        String updateQuery = buildUpdateQuery(object, filter);
+        try (Connection con = getConnection()) {
+            update(con, object, filter);
+        }
+    }
+
+    public void delete(Dto dto) throws SQLException {
+        String sql = String.format("DELETE FROM %s WHERE %s ",
+                dto.getClass().getAnnotation(Table.class).value(),
+                buildFilter(dto));
+
         try (Connection con = getConnection()) {
             try (Statement statement = con.createStatement()) {
-                statement.execute(updateQuery);
+                statement.execute(sql);
             }
+        } catch (SQLException e) {
+            logger.error("can't execute sql : " + sql, e);
+            throw new SQLException(e);
         }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // static
+    ///////////////////////////////////////////////////////////////////////////
+
+    public static TransactionWriter getTransactionWriter() {
+        return new Mutator().new TransactionWriter();
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // private
     ///////////////////////////////////////////////////////////////////////////
 
+    private void update(Connection con, Dto object, Dto filter) throws SQLException {
+        String updateQuery = buildUpdateQuery(object, filter);
+        logger.info("sql " + updateQuery);
+        try (Statement statement = con.createStatement()) {
+            statement.execute(updateQuery);
+        }
+    }
+
+    private Dto write(Connection con, Dto dto) throws SQLException {
+        try (Statement statement = con.createStatement()) {
+            return writeDto(dto, statement);
+        } catch (SQLException e) {
+            throw new SQLException(e); //// TODO: 12.09.17 log
+        }
+    }
+
     private Dto writeDto(Dto dto, Statement statement) throws SQLException {
         String query = buildInsertQuery(dto);
-        LOGGER.debug("try execute : " + query);
+        logger.debug("try execute : " + query);
         try (ResultSet resultSet = statement.executeQuery(query)) {
             if (resultSet.next()) {
                 dto.setId(resultSet.getInt(1));
@@ -114,17 +146,20 @@ public class Mutator extends Component {
     }
 
     private String buildUpdateQuery(Dto dto, Dto filter) throws SQLException {
-        String where = null;
-        if (filter != null) {
-            where = buildFilter(filter);
-        } else if (dto.getId() != null) {
-            where = String.format("%s = %s", getIdName(dto.getClass()), dto.getId());
-        } else throw new SQLException("Update query without condition");
+        String where = "";
 
-        Class clazz = dto.getClass();
-        return String.format("UPDATE %s ", getTable(clazz)) +
-                String.format("SET %s ", getColumnsAndValueWithoutId(dto)) +
-                where;
+        if (filter != null) {
+            where = String.format("WHERE %s ", buildFilter(filter));
+        } else if (dto.getId() != null) {
+            where = String.format("WHERE %s = %s ", getIdName(dto.getClass()), dto.getId());
+        }
+
+        String query = String.format("UPDATE %s SET %s %s",
+                getTable(dto.getClass()),
+                getColumnsAndValueWithoutId(dto),
+                where);
+
+        return query;
     }
 
     private String getColumnsAndValueWithoutId(Dto dto) {
@@ -146,6 +181,56 @@ public class Mutator extends Component {
         }
         result.delete(result.length() - 2, result.length());
         return result.toString();
+    }
+
+    public class TransactionWriter {
+        private Connection con;
+
+        public TransactionWriter open() throws SQLException {
+            logger.debug("OPEN TRANSACTION");
+            con = getConnection();
+            con.setAutoCommit(false);
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            return this;
+        }
+
+        public TransactionWriter write(Dto dto) throws SQLException {
+            logger.debug("WRITE TRANSACTION");
+            try {
+                Mutator.this.write(con, dto);
+            } catch (SQLException e) {
+                rollback(e);
+            }
+            return this;
+        }
+
+        public TransactionWriter update(Dto dto) throws SQLException {
+            logger.debug("UPDATE TRANSACTION");
+            try {
+                Mutator.this.update(con, dto, null);
+            } catch (SQLException e) {
+                rollback(e);
+            }
+            return this;
+        }
+
+        public void close() throws SQLException {
+            logger.debug("CLOSE TRANSACTION");
+            con.commit();
+            con.close();
+        }
+
+        private void rollback(SQLException e) throws SQLException {
+            logger.debug("ROLLBACK TRANSACTION");
+            try {
+                con.rollback();
+            } catch (SQLException e1) {
+                throw new SQLException(e1);
+            } finally {
+                con.close();
+            }
+            throw new SQLException(e);
+        }
     }
 
 }

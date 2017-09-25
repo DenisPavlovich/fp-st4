@@ -14,27 +14,41 @@
 <body>
 <div>
 
+    <%--USER VIEW START--%>
     <c:if test="${empty sessionScope.get('auth')}">
         <%@ include file="jspf/not_auth_menu.jspf" %>
+
+        <div class="book_list">
+            <h3>ROOMS</h3>
+            <my:rooms/>
+        </div>
     </c:if>
+    <%--USER VIEW END--%>
+
     <c:if test="${not empty sessionScope.get('auth')}">
         <c:set var="accountId" scope="session" value="${sessionScope.get('auth').getId()}"/>
         <c:set var="accountType" scope="session" value="${sessionScope.get('auth').getType()}"/>
 
         <c:choose>
+            <%--CLIENT VIEW START--%>
             <c:when test="${accountType.equals('CLIENT')}">
                 <%@ include file="WEB-INF/jspf/menu/client_menu.jspf" %>
+
+                <div class="book_list">
+                    <h3>ROOMS</h3>
+                    <my:client_rooms action="pages/client/book_room.jsp" buttonName="book"/>
+                </div>
             </c:when>
+            <%--CLIENT VIEW END--%>
+
+            <%--MANAGER VIEW START--%>
             <c:when test="${accountType.equals('MANAGER')}">
                 <%@ include file="WEB-INF/jspf/menu/manager_menu.jspf" %>
             </c:when>
+            <%--MANAGER VIEW END--%>
         </c:choose>
     </c:if>
 
-    <div class="book_list">
-        <h3>ROOMS</h3>
-        <my:rooms action="pages/client/book_room.jsp" buttonName="book"/>
-    </div>
 
 </div>
 </body>

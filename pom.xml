@@ -19,6 +19,7 @@
         <module>dto-module</module>
         <module>db-connector</module>
         <module>controller-module</module>
+        <module>model-module</module>
     </modules>
 
     <dependencies>

@@ -61,8 +61,8 @@ public class Orders extends Dto {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(OrderStatus status) {
+        this.status = status.toString();
     }
 
     public Integer getPersonCount() {
@@ -77,8 +77,8 @@ public class Orders extends Dto {
         return apartmentType;
     }
 
-    public void setApartmentType(String apartmentType) {
-        this.apartmentType = apartmentType;
+    public void setApartmentType(ApartmentType apartmentType) {
+        this.apartmentType = apartmentType.toString();
     }
 
     public Date getFrom() {

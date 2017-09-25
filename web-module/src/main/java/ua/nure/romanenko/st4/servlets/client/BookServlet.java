@@ -1,7 +1,11 @@
 package ua.nure.romanenko.st4.servlets.client;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.apache.log4j.Logger;
+import ua.nure.romanenko.st4.dao.impl.OrderDaoImpl;
 import ua.nure.romanenko.st4.dbcp.Mutator;
+import ua.nure.romanenko.st4.dto.ApartmentType;
+import ua.nure.romanenko.st4.dto.OrderStatus;
 import ua.nure.romanenko.st4.dto.Orders;
 
 import javax.servlet.ServletException;
@@ -24,11 +28,11 @@ public class BookServlet extends HttpServlet {
     private static final Logger logger = Logger.getLogger(BookServlet.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Mutator mutator = new Mutator();
+        OrderDaoImpl orderDao = new OrderDaoImpl();
         Orders order = null;
         try {
             order = takeOrderFromRequest(request);
-            mutator.write(order);
+            orderDao.insert(order, OrderStatus.WAITED);
             response.sendRedirect("/index.jsp");
         } catch (SQLException e) {
             logger.error("can't book apartment!", e);
@@ -41,20 +45,14 @@ public class BookServlet extends HttpServlet {
 
     private Orders takeOrderFromRequest(HttpServletRequest request) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Orders order = new Orders();
-        System.out.println("accountid");
         Integer accountId = Integer.valueOf(request.getSession().getAttribute("accountId").toString());
-        System.out.println("accountid:"+accountId);
 
+        Orders order = new Orders();
         order.setAccountId(accountId);
         order.setApartmentId(Integer.valueOf(request.getParameter("id")));
-        System.out.println("id");
-        order.setApartmentType(request.getParameter("type"));
-        System.out.println("type");
+        order.setApartmentType(ApartmentType.valueOf(request.getParameter("type")));
         order.setFrom(dateFormat.parse(request.getParameter("from")));
-        System.out.println("from");
         order.setTo(dateFormat.parse(request.getParameter("to")));
-        System.out.println("to");
 
         return order;
     }
