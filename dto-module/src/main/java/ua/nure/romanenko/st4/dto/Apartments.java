@@ -83,8 +83,8 @@ public class Apartments extends Dto {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(ApartmentType type) {
+        this.type = type.toString();
     }
 
     public String getPhotoPath() {
