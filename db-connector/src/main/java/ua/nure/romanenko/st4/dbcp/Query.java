@@ -1,7 +1,9 @@
 package ua.nure.romanenko.st4.dbcp;
 
 
+import org.apache.log4j.Logger;
 import ua.nure.romanenko.st4.annotation.Column;
+import ua.nure.romanenko.st4.annotation.Table;
 import ua.nure.romanenko.st4.dto.Dto;
 
 import java.lang.reflect.Field;
@@ -16,6 +18,8 @@ import java.util.List;
  * Created by denis on 12.09.17.
  */
 public class Query extends Component {
+
+    private static final Logger logger = Logger.getLogger(Query.class);
 
     public Dto readRow(Integer id, Class<? extends Dto> clazz) throws SQLException {
         String query = new QueryBuilder(clazz)
@@ -74,6 +78,7 @@ public class Query extends Component {
     }
 
     private List<?> readDtos(String query, Class<? extends Dto> clazz) throws SQLException {
+        logger.info("sql : " + query);
         List<Dto> result = new LinkedList<>();
         Connection con = getConnection();
         try (Statement statement = con.createStatement()) {
@@ -102,27 +107,89 @@ public class Query extends Component {
         return dto;
     }
 
+    public QueryBuilder getQueryBuilder(Class<? extends Dto> dto) {
+        return new QueryBuilder(dto);
+    }
+
     public class QueryBuilder {
+
+        private Class clazzFrom;
+
         private String select;
         private String from;
         private String where = "";
         private String limit = "";
         private String order = "";
 
-        public QueryBuilder(Class<? extends Dto> clazz) {
-            select = String.format("SELECT %s ", getColumnsNames(clazz));
-            from = String.format("FROM %s ", getTable(clazz));
+        private StringBuilder join = new StringBuilder("");
+
+        public QueryBuilder(Class<? extends Dto> from) {
+            clazzFrom = from;
+            setSelect(from);
+            setFrom(from);
         }
 
+        //// TODO: 25.09.17 test
+        public QueryBuilder setSelect(Class<? extends Dto> clazz) {
+            String prefix = getPrefix(clazz);
+            select = String.format("SELECT %s ", getColumnsNames(clazz, prefix));
+            return this;
+        }
+
+        private String getPrefix(Class<? extends Dto> clazz) {
+            return clazz.getAnnotation(Table.class).value().substring(0, 1);
+        }
+
+        @Deprecated
         public QueryBuilder setSelect(String value) {
             if (value != null)
                 this.select = String.format("SELECT %s ", value);
             return this;
         }
 
+        public QueryBuilder setJoin(Class<? extends Dto> joinTable, Field joinIdField, Field fromIdField) {
+            String tableName = joinTable.getAnnotation(Table.class).value();
+            String joinPrefix = getPrefix(joinTable);
+            String joinOn = joinIdField.getAnnotation(Column.class).value();
+            String fromOn = fromIdField.getAnnotation(Column.class).value();
+
+            join.append(String.format("JOIN %s %s ON %s.%s = %s.%s ",
+                    tableName, joinPrefix,
+                    joinPrefix, joinOn,
+                    getPrefix(clazzFrom), fromOn));
+
+            return this;
+        }
+
+        public QueryBuilder setFrom(Class<? extends Dto> clazz) {
+            this.from = String.format("FROM %s %s ", getTable(clazz), getPrefix(clazz));
+            return this;
+        }
+
         public QueryBuilder setFrom(String value) {
             if (value != null)
-                this.from = String.format("FROM %s ", value);
+                this.from = String.format("FROM %s %s ", value, getPrefix(clazzFrom));
+            return this;
+        }
+
+        private static final String WHERE = "WHERE ";
+        private static final String AND = " AND ";
+
+        public QueryBuilder setWhere(Dto... dtos) {
+            StringBuilder where = new StringBuilder("");
+
+            for (Dto dto : dtos) {
+                if (dto != null) {
+                    if (where.length() == 0) where.append(WHERE);
+
+                    String prefix = getPrefix(dto.getClass());
+                    where.append(buildFilter(dto, prefix))
+                            .append(AND);
+                }
+            }
+            if (where.length() > WHERE.length())
+                where.delete(where.length() - AND.length(), where.length());
+            this.where = where.toString();
             return this;
         }
 
@@ -134,7 +201,7 @@ public class Query extends Component {
 
         public QueryBuilder setLimit(Integer value) {
             if (value != null)
-                this.limit = String.format("limit %d", value);
+                this.limit = String.format("limit %d ", value);
             return this;
         }
 
@@ -146,7 +213,7 @@ public class Query extends Component {
 
         public QueryBuilder setOrderDesc(String field) {
             if (field != null)
-                this.order = String.format("order by %s desc", field);
+                this.order = String.format("order by %s desc ", field);
             return this;
         }
 
@@ -154,10 +221,16 @@ public class Query extends Component {
             StringBuilder query = new StringBuilder();
             query.append(select)
                     .append(from)
+                    .append(join)
                     .append(where)
                     .append(order)
                     .append(limit);
             return query.toString();
+        }
+
+        public List<?> readDtos() throws SQLException {
+            String query = build();
+            return Query.this.readDtos(query, clazzFrom);
         }
     }
 

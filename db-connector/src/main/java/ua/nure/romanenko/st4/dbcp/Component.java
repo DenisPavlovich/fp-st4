@@ -54,10 +54,16 @@ abstract class Component {
     }
 
     protected String getColumnsNames(Class clazz) {
+        return getColumnsNames(clazz, "");
+    }
+
+    protected String getColumnsNames(Class clazz, String prefix) {
+        if (!"".equals(prefix)) prefix = prefix.concat(".");
+
         StringBuilder names = new StringBuilder();
 
         for (Field field : clazz.getDeclaredFields()) {
-            names.append(field.getAnnotation(Column.class).value())
+            names.append(prefix + field.getAnnotation(Column.class).value())
                     .append(", ");
         }
         names.delete(names.length() - 2, names.length());
@@ -99,6 +105,11 @@ abstract class Component {
     }
 
     protected String buildFilter(Dto dto) {
+        return buildFilter(dto, "");
+    }
+
+    protected String buildFilter(Dto dto, String prefix) {
+        if (!"".equals(prefix)) prefix = prefix.concat(".");
         StringBuilder filters = new StringBuilder();
         Class clazz = dto.getClass();
 
@@ -107,15 +118,15 @@ abstract class Component {
                 field.setAccessible(true);
                 Object value = field.get(dto);
                 if (value != null)
-                    filters.append(String.format("%s = %s AND ",
+                    filters.append(String.format("%s%s = %s AND ", prefix,
                             field.getAnnotation(Column.class).value(),
                             convertToString(value)));
             } catch (IllegalAccessException e) {
                 e.printStackTrace(); //// TODO: 15.09.17 log
             }
         }
-
-        filters.delete(filters.length() - 5, filters.length());
+        if (filters.length() > 5)
+            filters.delete(filters.length() - 5, filters.length());
         return filters.toString();
     }
 
