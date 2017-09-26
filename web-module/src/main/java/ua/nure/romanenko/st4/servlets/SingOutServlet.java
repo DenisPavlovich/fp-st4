@@ -1,15 +1,12 @@
 package ua.nure.romanenko.st4.servlets;
 
 import org.apache.log4j.Logger;
-import ua.nure.romanenko.st4.contollers.Authorization;
-import ua.nure.romanenko.st4.dto.Accounts;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * Created by denis on 19.09.17.

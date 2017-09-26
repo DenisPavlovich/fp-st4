@@ -16,4 +16,7 @@ public class AccountDaoImpl extends DaoBase<Accounts>{
         return (Accounts) query.readRow(account);
     }
 
+    public Accounts read(Accounts account) throws SQLException {
+        return (Accounts) query.readRow(account);
+    }
 }

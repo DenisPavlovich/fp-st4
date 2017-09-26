@@ -1,7 +1,7 @@
 package ua.nure.romanenko.st4.servlets;
 
 import org.apache.log4j.Logger;
-import ua.nure.romanenko.st4.contollers.Authorization;
+import ua.nure.romanenko.st4.dao.impl.AccountDaoImpl;
 import ua.nure.romanenko.st4.dto.Accounts;
 
 import javax.servlet.ServletException;
@@ -20,11 +20,12 @@ public class AuthorizationServlet extends SignInOut {
     private final static Logger logger = Logger.getLogger(AuthorizationServlet.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Authorization authorization = new Authorization();
+        AccountDaoImpl accountDao = new AccountDaoImpl();
+
         Accounts account = null;
         logger.info("SIGN IN");
         try {
-            account = authorization.singIn(getAccount(request));
+            account = accountDao.read(getAccount(request));
             if (account == null) throw new Exception(String.format("have no account (login : %s)", account.getLogin()));
 
             request.getSession().setAttribute("auth", account);
