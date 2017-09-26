@@ -29,7 +29,6 @@
                        placeholder="password (required)"/>
                 <p>
                     <button type="submit">sing up</button>
-                <p class="message">Have no account?</p>
             </div>
         </form>
     </div>

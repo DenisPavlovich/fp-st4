@@ -101,7 +101,8 @@ public class Query extends Component {
             dto = clazz.newInstance();
             for (Field field : clazz.getDeclaredFields()) {
                 field.setAccessible(true);
-                field.set(dto, resultSet.getObject(field.getAnnotation(Column.class).value()));
+                String nameField = field.getAnnotation(Column.class).value().replaceAll("\"","");
+                field.set(dto, resultSet.getObject(nameField));
             }
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace(); //// TODO: 12.09.17 log
@@ -220,7 +221,7 @@ public class Query extends Component {
 
         public QueryBuilder setOrderDesc(String field) {
             if (field != null)
-                this.order = String.format("order by %s desc ", field);
+                this.order = String.format(" order by %s desc ", field);
             return this;
         }
 

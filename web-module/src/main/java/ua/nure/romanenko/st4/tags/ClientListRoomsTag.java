@@ -31,6 +31,11 @@ public class ClientListRoomsTag extends ViewRoomsTag {
 
     private String apartmentType;
     private String withAccount;
+    private String updateOrderStatus;
+
+    public void setUpdateOrderStatus(String orderStatus) {
+        this.updateOrderStatus = orderStatus;
+    }
 
     public void setApartmentStatus(String apartmentStatus) {
         this.apartmentStatus = apartmentStatus;
@@ -111,8 +116,18 @@ public class ClientListRoomsTag extends ViewRoomsTag {
     }
 
     private String genForm(MethodType method, String content) {
-        return String.format("<form action=\"%s\" method=\"%s\">", action, method.toString()) +
-                content + "</form>";
+        StringBuilder form = new StringBuilder();
+
+        form.append(String.format("<form action=\"%s\" method=\"%s\">", action, method.toString()));
+        if (updateOrderStatus != null)
+            form.append(genHiddenOrderStatus(updateOrderStatus));
+        form.append(content + "</form>");
+
+        return form.toString();
+    }
+
+    private String genHiddenOrderStatus(String orderStatus) {
+        return String.format("<input type=\"text\" name=\"orderStatus\" hidden value=\"%s\">", orderStatus);
     }
 
     private String genButton() {

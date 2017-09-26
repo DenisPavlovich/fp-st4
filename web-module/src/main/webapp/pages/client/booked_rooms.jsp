@@ -14,7 +14,9 @@
     <div class="sign in">
         <div class="form">
             <div class="login-form">
-                <my:client_free_rooms action="../../index.jsp" buttonName="cancel" withAccount="true"/>
+                <my:client_free_rooms action="/orderstatus" buttonName="cancel"
+                                      apartmentStatus="BOOKED" withAccount="true"
+                                      updateOrderStatus="CANCELED"/>
             </div>
         </div>
     </div>

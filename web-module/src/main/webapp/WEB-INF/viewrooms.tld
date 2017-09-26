@@ -30,6 +30,9 @@
         <attribute>
             <name>withAccount</name>
         </attribute>
+        <attribute>
+            <name>updateOrderStatus</name>
+        </attribute>
     </tag>
 
     <tag>
