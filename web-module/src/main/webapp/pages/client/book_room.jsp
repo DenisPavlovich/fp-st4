@@ -9,7 +9,7 @@
 </head>
 <body>
 <div>
-    <%@ include file="../../jspf/menu/client_menu.jspf"%>
+    <%@ include file="../../WEB-INF/jspf/menu/client_menu.jspf"%>
     <div class="sign in">
         <form action="/client/bookroom" method="post">
             <div class="form">

@@ -10,7 +10,7 @@
 </head>
 <body>
 <div>
-    <%@ include file="../../jspf/menu/client_menu.jspf" %>
+    <%@ include file="../../WEB-INF/jspf/menu/client_menu.jspf" %>
     <div class="sign in">
         <div class="form">
             <div class="login-form">

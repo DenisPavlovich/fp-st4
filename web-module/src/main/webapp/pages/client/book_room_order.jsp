@@ -9,25 +9,25 @@
 </head>
 <body>
 <div>
-    <%@ include file="../../jspf/menu/client_menu.jspf" %>
+    <%@ include file="../../WEB-INF/jspf/menu/client_menu.jspf" %>
     <div class="sign in">
-        <form action="/client/bookroom" method="post">
+        <form action="/order" method="post">
             <div class="form">
                 <input type="text" hidden="hidden" readonly name="accountid"
                        value="${sessionScope.get('accountid')}">
                 <p class="message"> person count
-                    <input type="number" required name="person_count">
+                    <input class="input" type="number" required name="person_count">
                 </p>
                 <p class="message"> apartment type <br>
-                    <input type="checkbox" name="opt1" value="ECONOMY">ECONOMY<br>
-                    <input type="checkbox" name="opt2" checked value="BUSINESS">BUSINESS<br>
-                    <input type="checkbox" name="opt3" value="PREMIUM">PREMIUM<br>
+                    <input class="input" type="radio" name="apartmentType" value="ECONOMY">ECONOMY<br>
+                    <input class="input" type="radio" name="apartmentType" checked value="BUSINESS">BUSINESS<br>
+                    <input class="input" type="radio" name="apartmentType" value="PREMIUM">PREMIUM<br>
                 </p>
                 <p class="message"> from
-                    <input type="date" name="from">
+                    <input class="input" type="date" name="from">
                 </p>
                 <p class="message"> to
-                    <input type="date" name="to">
+                    <input class="input" type="date" name="to">
                 </p>
                 <button type="submit">ok</button>
             </div>

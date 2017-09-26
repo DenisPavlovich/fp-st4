@@ -15,11 +15,12 @@
 <div>
 
     <%--USER VIEW START--%>
+        <c:set var="hRooms" value="FREE ROOMS" scope="application"/>
     <c:if test="${empty sessionScope.get('auth')}">
         <%@ include file="jspf/not_auth_menu.jspf" %>
 
         <div class="book_list">
-            <h3>ROOMS</h3>
+            <h3>${hRooms}</h3>
             <my:free_rooms/>
         </div>
     </c:if>
@@ -35,7 +36,7 @@
                 <%@ include file="WEB-INF/jspf/menu/client_menu.jspf" %>
 
                 <div class="book_list">
-                    <h3>ROOMS</h3>
+                    <h3>{hRooms}</h3>
                     <my:client_free_rooms action="pages/client/book_room.jsp" buttonName="book" apartmentStatus="FREE"/>
                 </div>
             </c:when>
@@ -48,12 +49,6 @@
             <%--MANAGER VIEW END--%>
         </c:choose>
     </c:if>
-
-    <div class="form">
-            <p> asd :
-                <input class="input" value="sad" type="text">
-            </p>
-    </div>
 
 </div>
 </body>
