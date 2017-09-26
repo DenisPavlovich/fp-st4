@@ -99,7 +99,7 @@ public class ClientListRoomsTag extends ViewRoomsTag {
         Field joinIdField = Orders.class.getDeclaredField(orderWithRoom);
         Field fromIdField = Apartments.class.getDeclaredField(roomId);
 
-        Query.QueryBuilder qb = query.getQueryBuilder(Apartments.class);
+        Query.QueryBuilder qb = query.getQueryBuilder(Apartments.class, true);
         if (orderFilter != null && orderFilter.getAccountId() != null) {
             qb.setJoin(joinTable, joinIdField, fromIdField);
             qb.setWhere(apartmentFilter, orderFilter);

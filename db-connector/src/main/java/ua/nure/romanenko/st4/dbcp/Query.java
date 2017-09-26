@@ -114,11 +114,16 @@ public class Query extends Component {
         return new QueryBuilder(dto);
     }
 
+    public QueryBuilder getQueryBuilder(Class<? extends Dto> dto, Boolean isDistinct) {
+        return new QueryBuilder(dto, isDistinct);
+    }
+
     public class QueryBuilder {
 
         private Class clazzFrom;
 
         private String select;
+        private String distinct = "";
         private String from;
         private String where = "";
         private String limit = "";
@@ -127,6 +132,11 @@ public class Query extends Component {
         private StringBuilder join = new StringBuilder("");
 
         public QueryBuilder(Class<? extends Dto> from) {
+            this(from, false);
+        }
+
+        public QueryBuilder(Class<? extends Dto> from, Boolean isDistinct) {
+            if (isDistinct) distinct = "distinct";
             clazzFrom = from;
             setSelect(from);
             setFrom(from);
@@ -135,7 +145,7 @@ public class Query extends Component {
         //// TODO: 25.09.17 test
         public QueryBuilder setSelect(Class<? extends Dto> clazz) {
             String prefix = getPrefix(clazz);
-            select = String.format("SELECT %s ", getColumnsNames(clazz, prefix));
+            select = String.format("SELECT %s %s ", distinct, getColumnsNames(clazz, prefix));
             return this;
         }
 

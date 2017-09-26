@@ -36,7 +36,7 @@
                 <%@ include file="WEB-INF/jspf/menu/client_menu.jspf" %>
 
                 <div class="book_list">
-                    <h3>{hRooms}</h3>
+                    <h3>${hRooms}</h3>
                     <my:client_free_rooms action="pages/client/book_room.jsp" buttonName="book" apartmentStatus="FREE"/>
                 </div>
             </c:when>
