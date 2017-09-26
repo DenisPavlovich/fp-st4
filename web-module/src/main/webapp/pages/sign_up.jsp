@@ -11,7 +11,7 @@
 <div>
     <%@ include file="../jspf/sign_in.jspf" %>
     <div class="sign in">
-        <form action="/signout" method="post">
+        <form action="/signup" method="post">
             <div class="form">
                 <p class="message">Введите данные о себе</p>
                 <input class="input" required type="text" name="name" placeholder="name (required)"

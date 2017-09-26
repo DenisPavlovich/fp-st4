@@ -17,7 +17,7 @@
                 <a href="${pageContext.servletContext.contextPath}/pages/client/book_room_order.jsp">send order</a>
             </li>
             <li>
-                <a href="${pageContext.servletContext.contextPath}/pages/sign_up.jsp">sign out</a>
+                <a href="${pageContext.servletContext.contextPath}/signout">sign out</a>
             </li>
         </ul>
     </nav>

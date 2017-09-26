@@ -18,7 +18,7 @@ import java.sql.SQLException;
 /**
  * Created by denis on 24.09.17.
  */
-@WebServlet(name = "RegistrationServlet", urlPatterns = "/signout")
+@WebServlet(name = "RegistrationServlet", urlPatterns = "/signup")
 public class RegistrationServlet extends SignInOut {
 
     private static final Logger logger = Logger.getLogger(RegistrationServlet.class);
