@@ -70,7 +70,6 @@ public class ClientListRoomsTag extends ViewRoomsTag {
         filter.setStatus(ApartmentStatus.FREE);
 
         try {
-//            rooms = (List<Apartments>) query.readRows(filter);
             rooms = readApartmentFromBase();
             StringBuilder htmlResult = new StringBuilder();
             htmlResult.append("<div>");
