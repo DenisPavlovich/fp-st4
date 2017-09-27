@@ -21,7 +21,7 @@
         <%@ include file="jspf/not_auth_menu.jspf" %>
 
         <div class="book_list">
-            <h3>${freeRooms}</h3>
+            <h3>${allRooms}</h3>
             <%@include file="WEB-INF/jspf/util/sort.jspf" %>
             <my:rooms/>
         </div>
@@ -48,12 +48,14 @@
             <%--MANAGER VIEW START--%>
             <c:when test="${accountType.equals('MANAGER')}">
                 <%@ include file="WEB-INF/jspf/menu/manager_menu.jspf" %>
-                <my:rooms/>
+                <%@include file="WEB-INF/jspf/util/sort.jspf" %>
+                <my:rooms apartmentStatus="FREE"/>
             </c:when>
             <%--MANAGER VIEW END--%>
         </c:choose>
     </c:if>
 
+        <input class="input" name="apartmentId" type="number">
 </div>
 </body>
 </html>

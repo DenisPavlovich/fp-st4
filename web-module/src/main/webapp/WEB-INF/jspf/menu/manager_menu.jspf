@@ -11,13 +11,10 @@
                 <a href="${pageContext.servletContext.contextPath}/index.jsp">home</a>
             </li>
             <li>
-                <a href="${pageContext.servletContext.contextPath}/pages/sign_in.jsp">sing in</a>
+                <a href="${pageContext.servletContext.contextPath}/pages/manager/requests.jsp">requests</a>
             </li>
             <li>
-                <a href="${pageContext.servletContext.contextPath}/pages/sign_up.jsp">sing up</a>
-            </li>
-            <li>
-                <a>requests</a>
+                <a href="${pageContext.servletContext.contextPath}/signout">sign out</a>
             </li>
         </ul>
     </nav>

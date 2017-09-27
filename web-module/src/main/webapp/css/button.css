@@ -2,7 +2,7 @@ button {
     text-transform: uppercase;
     color: silver;
     background: #26292E;
-    width: 100%;
+    /*width: 100%;*/
     border: 0;
     padding: 15px;
     cursor: pointer;

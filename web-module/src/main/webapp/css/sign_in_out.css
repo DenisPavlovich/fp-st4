@@ -13,6 +13,7 @@ input.input {
     border: none;
     border-bottom: 1px solid #CCC;
     color: #555;
+    max-width: 64px;
 
     -moz-transition: .5s ease-in-out;
     -webkit-transition: .5s ease-in-out;

@@ -74,8 +74,6 @@ public class ClientListRoomsTag extends ViewRoomsTag {
         Apartments filter = new Apartments();
         filter.setStatus(ApartmentStatus.FREE);
 
-        this.pageContext.getSession();
-
         try {
             rooms = readApartmentFromBase();
             StringBuilder htmlResult = new StringBuilder();
@@ -119,8 +117,8 @@ public class ClientListRoomsTag extends ViewRoomsTag {
 
     private String apartmentToForm(Apartments apartment) {
         return genForm(MethodType.POST, String.format("<div>")
-                + apartmentToHtml(apartment)
-                + genButton()
+                + dtoToHtml(apartment)
+                + genButton(buttonName)
                 + "</div>");
     }
 
@@ -139,7 +137,4 @@ public class ClientListRoomsTag extends ViewRoomsTag {
         return String.format("<input type=\"text\" name=\"orderStatus\" hidden value=\"%s\">", orderStatus);
     }
 
-    private String genButton() {
-        return String.format("<button type=\"submit\">%s</button>", buttonName);
-    }
 }

@@ -19,15 +19,29 @@ import java.text.SimpleDateFormat;
 /**
  * Created by denis on 25.09.17.
  */
-@WebServlet(name = "ManagerServlet", urlPatterns = "/manager/manager")
+@WebServlet(name = "ManagerServlet", urlPatterns = "/manager")
 public class ManagerServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(ManagerServlet.class);
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        logger.debug("ManagerServlet#post");
+        OrderDaoImpl orderDao = new OrderDaoImpl();
+        Integer id = Integer.valueOf(request.getParameter("id"));
+        Integer apartmentId = Integer.valueOf(request.getParameter("apartmentId"));
+        OrderStatus status = OrderStatus.valueOf(request.getParameter("orderStatus"));
 
-        logger.debug("ManagerServlet#post");
+        try {
+            Orders filter = new Orders();
+            filter.setId(id);
+            filter.setApartmentId(apartmentId);
+            filter.setStatus(status);
+            orderDao.update(filter);
+            response.sendRedirect("index.jsp");
+        } catch (SQLException e) {
+            logger.error("can't change param!", e);
+            response.sendError(400, e.getMessage());
+        }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

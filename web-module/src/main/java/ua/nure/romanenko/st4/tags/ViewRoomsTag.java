@@ -5,8 +5,8 @@ import ua.nure.romanenko.st4.annotation.Column;
 import ua.nure.romanenko.st4.annotation.Table;
 import ua.nure.romanenko.st4.dbcp.Query;
 import ua.nure.romanenko.st4.dto.ApartmentStatus;
-import ua.nure.romanenko.st4.dto.ApartmentType;
 import ua.nure.romanenko.st4.dto.Apartments;
+import ua.nure.romanenko.st4.dto.Orders;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -46,7 +46,7 @@ public class ViewRoomsTag extends TagSupport {
         StringBuilder html = new StringBuilder();
         html.append("<div>");
         for (Apartments room : rooms) {
-            html.append(apartmentToHtml(room));
+            html.append(dtoToHtml(room));
         }
         html.append("</div>");
 
@@ -62,6 +62,11 @@ public class ViewRoomsTag extends TagSupport {
 
     private List<Apartments> readRooms() throws SQLException {
         Query.QueryBuilder qb = query.getQueryBuilder(Apartments.class);
+        if (apartmentStatus != null) {
+            Apartments filter = new Apartments();
+            filter.setStatus(ApartmentStatus.valueOf(apartmentStatus));
+            qb.setWhere(filter);
+        }
         if (getOrderBy() != null)
             qb.setOrder(getOrderBy());
         return (List<Apartments>) qb.readDtos();
@@ -71,7 +76,11 @@ public class ViewRoomsTag extends TagSupport {
         return (String) pageContext.getSession().getAttribute("order");
     }
 
-    protected String apartmentToHtml(Apartments apartment) {
+    protected String genButton(String buttonName) {
+        return String.format("<button type=\"submit\">%s</button>", buttonName);
+    }
+
+    protected String dtoToHtml(Apartments apartment) {
         String className = apartment.getClass().getAnnotation(Table.class).value();
         StringBuilder result = new StringBuilder();
 //        result.append(String.format("<div class=\"%s\" >", className));

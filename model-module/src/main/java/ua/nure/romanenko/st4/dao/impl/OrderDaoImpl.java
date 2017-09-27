@@ -36,15 +36,15 @@ public class OrderDaoImpl extends DaoBase<Orders> {
         return dto;
     }
 
-    public void update(Integer id, OrderStatus status) throws SQLException {
-        Orders filter = new Orders();
-
-        filter.setId(id);
-        filter.setStatus(status);
-
-        mutator.update(filter);
+    public void update(Orders order) throws SQLException {
+        mutator.update(order);
     }
 
+    public void update(String status, Orders filter) throws SQLException {
+        Orders newOrder = new Orders();
+        newOrder.setStatus(OrderStatus.valueOf(status));
+        mutator.update(newOrder, filter);
+    }
     public void update(OrderStatus status, Orders filter) throws SQLException {
         Orders newOrder = new Orders();
 

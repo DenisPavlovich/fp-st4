@@ -47,6 +47,17 @@
         </attribute>
     </tag>
 
+    <tag>
+        <name>order_true_false</name>
+        <tag-class>ua.nure.romanenko.st4.tags.ManagerOrdersTag</tag-class>
+        <body-content>empty</body-content>
+
+        <attribute>
+            <name>action</name>
+            <required>true</required>
+        </attribute>
+    </tag>
+
     <!-- Invoke 'Generate' action to add tags or functions -->
 
 </taglib>
