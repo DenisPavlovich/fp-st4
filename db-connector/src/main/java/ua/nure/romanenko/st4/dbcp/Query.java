@@ -225,7 +225,7 @@ public class Query extends Component {
 
         public QueryBuilder setOrder(String field) {
             if (field != null)
-                this.order = String.format("order by %s ", field);
+                this.order = String.format(" order by %s ", field);
             return this;
         }
 

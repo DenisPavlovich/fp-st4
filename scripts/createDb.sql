@@ -83,12 +83,12 @@ BEGIN
     RETURN new;
   END IF;
 
-  IF new.status = 'WAITED' OR new.status = 'PAID'
+  IF new.status = 'WAITED'
   THEN
     UPDATE apartments
     SET status = 'BOOKED'
     WHERE id = new.apartmentid;
-  ELSEIF new.status = 'IN_PROCESS'
+  ELSEIF new.status = 'IN_PROCESS' OR new.status = 'PAID'
     THEN
       UPDATE apartments
       SET status = 'BUSY'

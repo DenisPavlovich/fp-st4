@@ -37,7 +37,7 @@ public class ViewRoomsTag extends TagSupport {
         List<Apartments> rooms = new LinkedList<>();
 
         try {
-            rooms = (List<Apartments>) query.readRows(filter);
+            rooms = readRooms();
             logger.debug(String.format("get apartments (size %s)", rooms.size()));
         } catch (SQLException e) {
             logger.error("can't execute query!", e);
@@ -57,8 +57,18 @@ public class ViewRoomsTag extends TagSupport {
             e.printStackTrace();
         }
 
-        pageContext.setAttribute("rooms", rooms);
         return SKIP_BODY;
+    }
+
+    private List<Apartments> readRooms() throws SQLException {
+        Query.QueryBuilder qb = query.getQueryBuilder(Apartments.class);
+        if (getOrderBy() != null)
+            qb.setOrder(getOrderBy());
+        return (List<Apartments>) qb.readDtos();
+    }
+
+    protected String getOrderBy(){
+        return (String) pageContext.getSession().getAttribute("order");
     }
 
     protected String apartmentToHtml(Apartments apartment) {

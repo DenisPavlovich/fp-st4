@@ -1,0 +1,14 @@
+<%@page contentType="text/html" pageEncoding="utf-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<form action="/set" method="post">
+    <input hidden name="paramName" value="order">
+    <input hidden name="pageUrl" value="${pageContext.request.requestURI}">
+    <p>
+    <p> price <input class="input" type="radio" name="paramValue" value="price" checked> </p>
+    <p> person_count <input class="input" type="radio" name="paramValue" value="person_count"> </p>
+    <p> type <input class="input" type="radio" name="paramValue" value="type"> </p>
+    <p> status <input class="input" type="radio" name="paramValue" value="status"> </p>
+    </p>
+    <button type="submit">sort</button>
+</form>

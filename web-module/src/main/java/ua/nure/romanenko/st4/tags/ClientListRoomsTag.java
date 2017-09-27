@@ -32,6 +32,11 @@ public class ClientListRoomsTag extends ViewRoomsTag {
     private String apartmentType;
     private String withAccount;
     private String updateOrderStatus;
+    private String orderBy;
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
 
     public void setUpdateOrderStatus(String orderStatus) {
         this.updateOrderStatus = orderStatus;
@@ -69,6 +74,8 @@ public class ClientListRoomsTag extends ViewRoomsTag {
         Apartments filter = new Apartments();
         filter.setStatus(ApartmentStatus.FREE);
 
+        this.pageContext.getSession();
+
         try {
             rooms = readApartmentFromBase();
             StringBuilder htmlResult = new StringBuilder();
@@ -103,6 +110,9 @@ public class ClientListRoomsTag extends ViewRoomsTag {
             qb.setJoin(joinTable, joinIdField, fromIdField);
             qb.setWhere(apartmentFilter, orderFilter);
         } else qb.setWhere(apartmentFilter, orderFilter);
+
+        if (getOrderBy() != null)
+            qb.setOrder(getOrderBy());
 
         return (List<Apartments>) qb.readDtos();
     }

@@ -10,7 +10,7 @@
     <uri>WEB-INF/viewrooms.tld</uri>
 
     <tag>
-        <name>client_free_rooms</name>
+        <name>smart_rooms</name>
         <tag-class>ua.nure.romanenko.st4.tags.ClientListRoomsTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
@@ -33,10 +33,13 @@
         <attribute>
             <name>updateOrderStatus</name>
         </attribute>
+        <attribute>
+            <name>orderBy</name>
+        </attribute>
     </tag>
 
     <tag>
-        <name>free_rooms</name>
+        <name>rooms</name>
         <tag-class>ua.nure.romanenko.st4.tags.ViewRoomsTag</tag-class>
         <body-content>empty</body-content>
         <attribute>

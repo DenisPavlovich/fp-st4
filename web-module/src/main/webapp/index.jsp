@@ -15,13 +15,15 @@
 <div>
 
     <%--USER VIEW START--%>
-        <c:set var="hRooms" value="FREE ROOMS" scope="application"/>
+    <c:set var="freeRooms" value="FREE ROOMS" scope="application"/>
+    <c:set var="allRooms" value="ROOMS" scope="application"/>
     <c:if test="${empty sessionScope.get('auth')}">
         <%@ include file="jspf/not_auth_menu.jspf" %>
 
         <div class="book_list">
-            <h3>${hRooms}</h3>
-            <my:free_rooms/>
+            <h3>${freeRooms}</h3>
+            <%@include file="WEB-INF/jspf/util/sort.jspf" %>
+            <my:rooms/>
         </div>
     </c:if>
     <%--USER VIEW END--%>
@@ -36,8 +38,9 @@
                 <%@ include file="WEB-INF/jspf/menu/client_menu.jspf" %>
 
                 <div class="book_list">
-                    <h3>${hRooms}</h3>
-                    <my:client_free_rooms action="pages/client/book_room.jsp" buttonName="book" apartmentStatus="FREE"/>
+                    <h3>${freeRooms}</h3>
+                    <%@include file="WEB-INF/jspf/util/sort.jspf" %>
+                    <my:smart_rooms action="pages/client/book_room.jsp" buttonName="book" apartmentStatus="FREE"/>
                 </div>
             </c:when>
             <%--CLIENT VIEW END--%>
@@ -45,6 +48,7 @@
             <%--MANAGER VIEW START--%>
             <c:when test="${accountType.equals('MANAGER')}">
                 <%@ include file="WEB-INF/jspf/menu/manager_menu.jspf" %>
+                <my:rooms/>
             </c:when>
             <%--MANAGER VIEW END--%>
         </c:choose>

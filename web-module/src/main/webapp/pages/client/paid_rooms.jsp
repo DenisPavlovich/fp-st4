@@ -12,13 +12,13 @@
 <body>
 <div>
     <%@ include file="../../WEB-INF/jspf/menu/client_menu.jspf" %>
-    <h3>YOUR ORDERS :</h3>
+    <h3>YOU ORDERS :</h3>
     <div class="sign in">
         <div class="form">
             <div class="login-form">
-                <my:smart_rooms action="/orderstatus" buttonName="cancel"
+                <my:smart_rooms action="/orderstatus" buttonName="pay"
                                 apartmentStatus="BOOKED" withAccount="true"
-                                updateOrderStatus="CANCELED"/>
+                                updateOrderStatus="PAID"/>
             </div>
         </div>
     </div>
